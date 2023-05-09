@@ -9,6 +9,7 @@ import sys
 import os
 import json
 
+
 class BaseModel:
     """ This defines the basis of al our objects in this project """
     def __init__(self, *args, **kwargs):
@@ -17,10 +18,12 @@ class BaseModel:
         if kwargs:
             try:
                 self.id = kwargs['id']
-                self.created_at = dt.datetime.fromisoformat(kwargs['created_at'])
-                self.updated_at = dt.datetime.fromisoformat(kwargs['updated_at'])
+                created_at = kwargs['created_at']
+                upd_at = kwargs['updated_at']
+                self.created_at = dt.datetime.fromisoformat(created_at)
+                self.updated_at = dt.datetime.fromisoformat(upd_at)
             except Exception as e:
-                print (e)
+                print(e)
         else:
             self.id = str(uuid.uuid4())
             self.created_at = dt.datetime.now()
@@ -28,7 +31,7 @@ class BaseModel:
 
     def save(self):
         """ This method updates the instance attribut updated_at """
-        
+
         self.updated_at = dt.datetime.now()
 
     def to_dict(self):
@@ -48,6 +51,7 @@ class BaseModel:
         """ This method returns the string representation of any class
         instance """
 
-        str_rep = "[{}] ({}) {}".format(type(self).__name__, self.id, self.__dict__)
+        str_rep = "[{}] ({}) ".format(type(self).__name__, self.id)
+        str_rep += "{}".format(self.__dict__)
 
         return str_rep
