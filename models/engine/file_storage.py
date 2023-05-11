@@ -5,7 +5,7 @@ import os
 import json
 import sys
 import datetime as dt
-import models.base_model as b
+from models.base_model import BaseModel
 
 
 class FileStorage:
@@ -66,4 +66,4 @@ class FileStorage:
                     for k in obj.keys():
                         ob = obj[k]
                         key = ob['__class__'] + '.' + ob['id']
-                        self.__objects[key] = b.BaseModel(**ob)
+                        self.__objects[key] = BaseModel(**ob)
