@@ -6,6 +6,12 @@ import json
 import sys
 import datetime as dt
 from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 class FileStorage:
@@ -65,5 +71,19 @@ class FileStorage:
                 if obj is not None:
                     for k in obj.keys():
                         ob = obj[k]
+                        ob_class = ob['__class__']
                         key = ob['__class__'] + '.' + ob['id']
-                        self.__objects[key] = BaseModel(**ob)
+                        if ob_class == "User":
+                            self.__objects[key] = User(**ob)
+                        if ob_class == "State":
+                            self.__objects[key] = State(**ob)
+                        if ob_class == "City":
+                            self.__objects[key] = City(**ob)
+                        if ob_class == "Amenity":
+                            self.__objects[key] = Amenity(**ob)
+                        if ob_class == "Place":
+                            self.__objects[key] = Place(**ob)
+                        if ob_class == "Review":
+                            self.__objects[key] = Review(**ob)
+                        if ob_class == "BaseModel":
+                            self.__objects[key] = BaseModel(**ob)
