@@ -4,6 +4,7 @@
 
 from models.base_model import BaseModel
 
+
 class Place(BaseModel):
     """ This is a blueprint for all place objects """
 

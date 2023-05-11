@@ -4,6 +4,7 @@
 
 from models.base_model import BaseModel
 
+
 class Review(BaseModel):
     """ This is a blueprint for Review objects """
 
