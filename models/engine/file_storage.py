@@ -20,6 +20,28 @@ class FileStorage:
     __file_path = "./file.json"
     __objects = {}
 
+
+    def destroy_objects(self, obj_id):
+        """ update __objects by deleting obj"""
+        del self.__objects[obj_id]
+
+    def update_objects(self, obj_id, key, value):
+        """ update __objects by adding or updating key"""
+        obj = self.__objects[obj_id]
+        found = 0
+        for k, v in obj.to_dict():
+            if k == key:
+                if type(v) == str:
+                    self.__obj[obj_id][k] = str(value)
+                if type(v) == int:
+                    self.__obj[obj_id][k] = int(value)
+                if type(v) == float:
+                    self.__obj[obj_id][k] = float(value)
+                found = 1
+                break
+        if found == 0:
+            self.__obj[obj_id][key] = value
+
     def all(self):
         """ This method returns the dictionary __objects """
 
