@@ -37,7 +37,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
 
     def help_create(self):
-        print('create class_name'),'\n'
+        print('create class_name'), '\n'
         print('create a new instance of class_name')
 
     def do_show(self, arg):
@@ -64,9 +64,9 @@ class HBNBCommand(cmd.Cmd):
                         print("** no instance found **")
             else:
                 print("** class doesn't exist **")
-    
+
     def help_show(self):
-        print('show class_name id_instance'),'\n'
+        print('show class_name id_instance'), '\n'
         print('Prints the string representation of an instance')
 
     def do_destroy(self, arg):
@@ -96,7 +96,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
 
     def help_destroy(self):
-        print('destroy class_name id_instance'),'\n'
+        print('destroy class_name id_instance'), '\n'
         print('Deletes an instance based on the class name and id')
 
     def do_all(self, arg):
@@ -114,7 +114,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
 
     def help_all(self):
-        print('all [class_name]'),'\n'
+        print('all [class_name]'), '\n'
         print('Prints all string representation \
 of all instances based or not on the class name')
 
@@ -147,6 +147,11 @@ of all instances based or not on the class name')
                         print("** no instance found **")
             else:
                 print("** class doesn't exist **")
+
+    def help_update(self):
+        print('update class_name id_instance key value'), '\n'
+        print('Updates an instance based on the class name and id \
+by adding or updating attribute')
 
 
 if __name__ == '__main__':

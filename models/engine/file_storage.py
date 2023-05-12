@@ -29,18 +29,23 @@ class FileStorage:
         """ update __objects by adding or updating key"""
         obj = self.__objects[obj_id]
         found = 0
-        for k, v in obj.to_dict():
+        ob = obj.__dict__
+        newtime = dt.datetime.now()
+        for k, v in ob.items():
             if k == key:
                 if type(v) == str:
-                    self.__obj[obj_id][k] = str(value)
+                    valueN= str(value)
                 if type(v) == int:
-                    self.__obj[obj_id][k] = int(value)
+                    valueN= int(value)
                 if type(v) == float:
-                    self.__obj[obj_id][k] = float(value)
+                    valueN = float(value)
                 found = 1
                 break
         if found == 0:
-            self.__obj[obj_id][key] = value
+            valueN = value
+        setattr(obj, key, valueN)
+        setattr(obj, 'updated_at', newtime)
+        self.__objects[obj_id] = obj
 
     def all(self):
         """ This method returns the dictionary __objects """
