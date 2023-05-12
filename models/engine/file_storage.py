@@ -20,7 +20,6 @@ class FileStorage:
     __file_path = "./file.json"
     __objects = {}
 
-
     def destroy_objects(self, obj_id):
         """ update __objects by deleting obj"""
         del self.__objects[obj_id]
@@ -34,9 +33,9 @@ class FileStorage:
         for k, v in ob.items():
             if k == key:
                 if type(v) == str:
-                    valueN= str(value)
+                    valueN = str(value)
                 if type(v) == int:
-                    valueN= int(value)
+                    valueN = int(value)
                 if type(v) == float:
                     valueN = float(value)
                 found = 1
