@@ -37,7 +37,6 @@ class BaseModel:
         self.updated_at = dt.datetime.now()
         m.storage.save()
 
-    @classmethod
     def to_dict(self):
         """ This method returns a dict of key-value pairs as per the
         __dict__ builtin of the instance """
