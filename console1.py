@@ -32,103 +32,85 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, arg):
-        """ This method creates an instance from the console """
+        """ This method creates a class instance using
+        console command """
 
-        if arg == "":
-            print("** class name missing **")
-        else:
-            if arg == "BaseModel":
-                my_model = BaseModel()
-                exist = 1
-            elif arg == "User":
-                my_model = User()
-                exist = 1
-            elif arg == "State":
-                my_model = State()
-                exist = 1
-            elif arg == "City":
-                my_model = City()
-                exist = 1
-            elif arg == "Amenity":
-                my_model = Amenity()
-                exist = 1
-            elif arg == "Place":
-                my_model = Place()
-                exist = 1
-            elif arg == "Review":
-                my_model = Review()
-                exist = 1
-            else:
-                exist = 0
-            if exist == 1:
+        class_list = ['BaseModel', 'User', 'City', 'State']
+        class_list.extend(['Amenity', 'Place', 'Review'])
+
+        if arg:
+            if arg in class_list:
+                my_model = eval(arg)()
                 my_model.save()
                 print("{}".format(my_model.id))
             else:
                 print("** class doesn't exist **")
+        else:
+            print("** clss name is missing **")
 
     def help_create(self):
-        """ This method explains what create does """
+        """ This method shows what create method does """
 
-        print('create class_name')
+        print('create class_name'), '\n'
         print('create a new instance of class_name')
 
     def do_show(self, arg):
-        """ This method shows the info about an instance """
+        """ This method shows the string rep of an instance """
 
         if arg == "":
             print("** class name missing **")
         else:
             args = arg.split(" ")
+
             listclass = ['BaseModel', 'User', 'City', 'State']
-            listclass.append('Amenity')
-            listclass.append('Place')
-            listclass.append('Review')
-            if args[0] in listclass:
-                if len(args) < 2:
-                    print("** instance id missing **")
-                else:
+            listclass.extend(['Amenity', 'Place', 'Review'])
+
+            if len(args) < 2:
+                print("** instance id missing **")
+            else:
+                if args[0] in listclass:
                     cls = args[0]
                     id_instance = args[1]
                     all_objs = storage.all()
-                    find = 0
+                    found = False
                     for obj_id in all_objs.keys():
                         obj_split = obj_id.split(".")
                         if obj_split[1] == id_instance:
                             if obj_split[0] == args[0]:
                                 ob = all_objs[obj_id]
                                 print(ob)
-                                find = 1
+                                found = True
                                 break
-                    if find == 0:
+                    if not found:
                         print("** no instance found **")
-            else:
-                print("** class doesn't exist **")
+                else:
+                    print("** class doesn't exist **")
 
     def help_show(self):
-        """ This method explians what show method does """
+        """ This method displays what show methodo does """
 
-        print('show class_name id_instance')
+        print('show class_name id_instance'), '\n'
         print('Prints the string representation of an instance')
 
     def do_destroy(self, arg):
-        """ this method deletes an instance from the console """
+        """ This method deletes an instance of a class """
 
         if arg == "":
             print("** class name missing **")
         else:
             args = arg.split(" ")
+
             listclass = ['BaseModel', 'User', 'City', 'State']
-            listclass.append('Amenity')
-            listclass.append('Place')
-            listclass.append('Review')
-            if args[0] in listclass:
-                if len(args) < 2:
-                    print("** instance id missing **")
-                else:
+            listclass.extend(['Amenity', 'Place', 'Review'])
+
+            if len(args) < 2:
+                print("** instance id missing **")
+            else:
+                if args[0] in listclass:
                     cls = args[0]
                     id_instance = args[1]
                     all_objs = storage.all()
-                    find = 0
+                    found = False
                     for obj_id in all_objs.keys():
                         obj_split = obj_id.split(".")
                         if obj_split[1] == id_instance:
@@ -136,21 +118,21 @@ class HBNBCommand(cmd.Cmd):
                                 ob = all_objs[obj_id]
                                 storage.destroy_objects(obj_id)
                                 storage.save()
-                                find = 1
+                                found = True
                                 break
-                    if find == 0:
+                    if not found:
                         print("** no instance found **")
-            else:
-                print("** class doesn't exist **")
+                else:
+                    print("** class doesn't exist **")
 
     def help_destroy(self):
-        """ Thiis method explains what do destroy does """
+        """ This method describes what destroy method does """
 
-        print('destroy class_name id_instance')
+        print('destroy class_name id_instance'), '\n'
         print('Deletes an instance based on the class name and id')
 
     def do_all(self, arg):
-        """ This method displays all instance from the json file """
+        """ This method shows all str rep of all instances """
 
         all_objs = storage.all()
         if arg == "":
@@ -158,9 +140,8 @@ class HBNBCommand(cmd.Cmd):
                 print(all_objs[obj_id])
         else:
             listclass = ['BaseModel', 'User', 'City', 'State']
-            listclass.append('Amenity')
-            listclass.append('Place')
-            listclass.append('Review')
+            listclass.extend(['Amenity', 'Place', 'Review'])
+
             if arg in listclass:
                 for obj_id in all_objs.keys():
                     obj_split = obj_id.split(".")
@@ -170,36 +151,34 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
 
     def help_all(self):
-        """ This method shows what all method does """
+        """ This method shows what the all method does """
 
-        print('all [class_name]')
+        print('all [class_name]'), '\n'
         print('Prints all string representation \
 of all instances based or not on the class name')
 
     def do_update(self, arg):
-        """ This method updates an instance """
+        """ This method updates an instance based on class command """
 
         if arg == "":
             print("** class name missing **")
         else:
             args = arg.split(" ")
             listclass = ['BaseModel', 'User', 'City', 'State']
-            listclass.append('Amenity')
-            listclass.append('Place')
-            listclass.append('Review')
-            if args[0] in listclass:
-                if len(args) < 4:
-                    if len(args) == 1:
-                        print("** instance id missing **")
-                    if len(args) == 2:
-                        print("** attribute name missing **")
-                    if len(args) == 3:
-                        print("** value missing **")
-                else:
+            listclass.extend(['Amenity', 'Place', 'Review'])
+
+            if len(args) == 1:
+                print("** instance id missing **")
+            if len(args) == 2:
+                print("** attribute name missing **")
+            if len(args) == 3:
+                print("** value missing **")
+            else:
+                if arg[0] in listclass:
                     cls = args[0]
                     id_instance = args[1]
                     all_objs = storage.all()
-                    find = 0
+                    find = False
                     for obj_id in all_objs.keys():
                         obj_split = obj_id.split(".")
                         if obj_split[1] == id_instance:
@@ -208,12 +187,12 @@ of all instances based or not on the class name')
                                 a2 = args[3]
                                 storage.update_objects(obj_id, a1, a2)
                                 storage.save()
-                                find = 1
+                                find = True
                                 break
-                    if find == 0:
+                    if not find:
                         print("** no instance found **")
-            else:
-                print("** class doesn't exist **")
+                else:
+                    print("** class doesn't exist **")
 
     def help_update(self):
         """ This method explains what update method does """
