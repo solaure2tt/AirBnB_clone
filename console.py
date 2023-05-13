@@ -158,7 +158,7 @@ class HBNBCommand(cmd.Cmd):
         if arg == "":
             for obj_id in all_objs.keys():
                 obj_list.append(str(all_objs[obj_id]))
-                print(obj_list)
+            print(obj_list)
         else:
             listclass = ['BaseModel', 'User', 'City', 'State']
             listclass.append('Amenity')
