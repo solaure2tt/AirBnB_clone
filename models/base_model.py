@@ -16,7 +16,7 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         """ This is the constructor for our class instances """
 
-        if kwargs:
+        if kwargs and any (v is not None for v in kwargs.values()):
             try:
                 self.id = kwargs['id']
                 created_at = kwargs['created_at']

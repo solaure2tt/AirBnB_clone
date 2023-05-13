@@ -152,10 +152,14 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, arg):
         """ This method displays all instance from the json file """
 
+
+        obj_list = []
+
         all_objs = storage.all()
         if arg == "":
             for obj_id in all_objs.keys():
-                print(all_objs[obj_id])
+                obj_list.append(str(all_objs[obj_id]))
+                print(obj_list)
         else:
             listclass = ['BaseModel', 'User', 'City', 'State']
             listclass.append('Amenity')
@@ -165,7 +169,8 @@ class HBNBCommand(cmd.Cmd):
                 for obj_id in all_objs.keys():
                     obj_split = obj_id.split(".")
                     if obj_split[0] == arg:
-                        print(all_objs[obj_id])
+                        obj_list.append(str(all_objs[obj_id]))
+                        print(obj_list)
             else:
                 print("** class doesn't exist **")
 

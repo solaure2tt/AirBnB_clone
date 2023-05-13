@@ -22,11 +22,11 @@ class FileStorage:
 
     def destroy_objects(self, obj_id):
         """ update __objects by deleting obj"""
-        del self.__objects[obj_id]
+        del FileStorage.__objects[obj_id]
 
     def update_objects(self, obj_id, key, value):
         """ update __objects by adding or updating key"""
-        obj = self.__objects[obj_id]
+        obj = FileStorage.__objects[obj_id]
         found = 0
         ob = obj.__dict__
         newtime = dt.datetime.now()
@@ -44,7 +44,7 @@ class FileStorage:
             valueN = value
         setattr(obj, key, valueN)
         setattr(obj, 'updated_at', newtime)
-        self.__objects[obj_id] = obj
+        FileStorage.__objects[obj_id] = obj
 
     def all(self):
         """ This method returns the dictionary __objects """
@@ -60,15 +60,15 @@ class FileStorage:
         if obj is not None:
             try:
                 key = type(obj).__name__ + '.' + obj.id
-                self.__objects[key] = obj
+                FileStorage.__objects[key] = obj
             except Exception as e:
                 print(e)
 
     def save(self):
         """ This method serializes __objects to __file_path """
 
-        with open(self.__file_path, 'w') as file:
-            if self.__objects is None:
+        with open(FileStorage.__file_path, 'w') as file:
+            if FileStorage.__objects is None:
                 file.write("[]")
             else:
                 ins = {}
@@ -87,8 +87,8 @@ class FileStorage:
     def reload(self):
         """ This method deserializes a JSON obeject to class object """
 
-        if os.path.exists(self.__file_path):
-            with open(self.__file_path, 'r') as file:
+        if os.path.exists(FileStorage.__file_path):
+            with open(FileStorage.__file_path, 'r') as file:
                 re = file.read()
                 listDict = json.loads(re)
                 obj = {}
@@ -100,16 +100,16 @@ class FileStorage:
                         ob_class = ob['__class__']
                         key = ob['__class__'] + '.' + ob['id']
                         if ob_class == "User":
-                            self.__objects[key] = User(**ob)
+                            FileStorage.__objects[key] = User(**ob)
                         if ob_class == "State":
-                            self.__objects[key] = State(**ob)
+                            FileStorage.__objects[key] = State(**ob)
                         if ob_class == "City":
-                            self.__objects[key] = City(**ob)
+                            FileStorage.__objects[key] = City(**ob)
                         if ob_class == "Amenity":
-                            self.__objects[key] = Amenity(**ob)
+                            FileStorage.__objects[key] = Amenity(**ob)
                         if ob_class == "Place":
-                            self.__objects[key] = Place(**ob)
+                            FileStorage.__objects[key] = Place(**ob)
                         if ob_class == "Review":
-                            self.__objects[key] = Review(**ob)
+                            FileStorage.__objects[key] = Review(**ob)
                         if ob_class == "BaseModel":
-                            self.__objects[key] = BaseModel(**ob)
+                            FileStorage.__objects[key] = BaseModel(**ob)
