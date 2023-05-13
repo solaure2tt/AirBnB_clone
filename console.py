@@ -152,7 +152,6 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, arg):
         """ This method displays all instance from the json file """
 
-
         obj_list = []
 
         all_objs = storage.all()
