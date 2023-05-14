@@ -9,6 +9,7 @@ from datetime import datetime
 from console import HBNBCommand
 from models.base_model import BaseModel
 
+
 @contextmanager
 def captured_output():
     new_out, new_err = io.StringIO(), io.StringIO()
@@ -37,7 +38,6 @@ class Test_Console(unittest.TestCase):
 
     def tearDown(self):
         self.cli.do_destroy("BaseModel d3da85f2-499c-43cb-b33d-3d7935bc808c")
-
 
     def test_show_error_no_args(self):
         with captured_output() as (out, err):
@@ -85,7 +85,6 @@ class Test_Console(unittest.TestCase):
         output = out.getvalue().strip()
         self.assertEqual(output, "** instance id missing **")
 
-
     def test_destroy_error_invalid_class(self):
         with captured_output() as (out, err):
             self.cli.do_destroy("Human d3da85f2-499c-43cb-b33d-3d7935bc808c")
@@ -110,14 +109,11 @@ class Test_Console(unittest.TestCase):
         output = out.getvalue().strip()
         self.assertFalse("123-456-abc" in output)
 
-
     def test_all_error_invalid_class(self):
         with captured_output() as (out, err):
             self.cli.do_all("Human")
         output = out.getvalue().strip()
         self.assertEqual(output, "** class doesn't exist **")
-
-
         with captured_output() as (out, err):
             self.cli.do_show("BaseModel d3da85f2-499c-43cb-b33d-3d7935bc808c")
         output = out.getvalue().strip()
@@ -129,7 +125,6 @@ class Test_Console(unittest.TestCase):
         output = out.getvalue().strip()
         self.assertEqual(output, "** no instance found **")
 
-
     def test_update_error_invalid_class(self):
         with captured_output() as (out, err):
             self.cli.do_update("Human " +
@@ -137,13 +132,13 @@ class Test_Console(unittest.TestCase):
         output = out.getvalue().strip()
         self.assertEqual(output, "** class doesn't exist **")
 
-
     def test_update_error_missing_value(self):
         with captured_output() as (out, err):
             self.cli.do_update("BaseModel " +
                                "d3da85f2-499c-43cb-b33d-3d7935bc808c name")
         output = out.getvalue().strip()
         self.assertEqual(output, "** value missing **")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -226,7 +226,6 @@ of all instances based or not on the class name')
         print('Updates an instance based on the class name and id \
 by adding or updating attribute')
 
-
     def precmd(self, arg):
         """ This method overwrites the cmd base class method precmd """
 
