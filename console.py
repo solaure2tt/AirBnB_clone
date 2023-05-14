@@ -234,7 +234,7 @@ by adding or updating attribute')
             if '(' not in arglist[1]:
                 arglist2 = [arglist[1], arglist[0]]
             else:
-                if 'all' in arg:
+                if 'all' in arg or 'count' in arg:
                     arglist[1] = arglist[1].replace(')', "")
                     arglist[1] = arglist[1].replace('(', "")
                     arglist2 = [arglist[1], arglist[0]]
