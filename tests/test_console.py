@@ -41,28 +41,28 @@ class Test_Console(unittest.TestCase):
 
     def test_show_error_no_args(self):
         with captured_output() as (out, err):
-            self.cli.do_show('')
+            self.cli.onecmd("show ''")
         output = out.getvalue().strip()
-        self.assertEqual(output, "** class name missing **")
+        self.assertEqual(output, "** class doesn't exist **")
 
     def test_show_error_missing_arg(self):
         with captured_output() as (out, err):
-            self.cli.do_show("BaseModel")
+            self.cli.onecmd("show BaseModel")
         output = out.getvalue().strip()
         self.assertEqual(output, "** instance id missing **")
 
     def test_show_error_invalid_class(self):
         with captured_output() as (out, err):
-            self.cli.do_show("Human 1234-5678-9101")
+            self.cli.onecmd("show Human 1234-5678-9101")
         output = out.getvalue().strip()
         self.assertEqual(output, "** class doesn't exist **")
 
         with captured_output() as (out, err):
-            self.cli.do_create("BaseModel")
+            self.cli.onecmd("create BaseModel")
         output = out.getvalue().strip()
 
         with captured_output() as (out, err):
-            self.cli.do_show("BaseModel {}".format(output))
+            self.cli.onecmd("show BaseModel {}".format(output))
         output2 = out.getvalue().strip()
         self.assertTrue(output in output2)
 
@@ -72,16 +72,16 @@ class Test_Console(unittest.TestCase):
                      'created_at': datetime(2017, 2, 12, 00, 31, 53, 331900)}
         testmodel = BaseModel(test_args)
         testmodel.save()
-        self.cli.do_destroy("BaseModel f519fb40-1f5c-458b-945c-2ee8eaaf4900")
+        self.cli.onecmd("destroy BaseModel f519fb40-1f5c-458b-945c-2ee8eaaf4900")
 
         with captured_output() as (out, err):
-            self.cli.do_show("BaseModel f519fb40-1f5c-458b-945c-2ee8eaaf4900")
+            self.cli.onecmd("show BaseModel f519fb40-1f5c-458b-945c-2ee8eaaf4900")
         output = out.getvalue().strip()
         self.assertEqual(output, "** no instance found **")
 
     def test_destroy_error_missing_id(self):
         with captured_output() as (out, err):
-            self.cli.do_destroy("BaseModel")
+            self.cli.onecmd("destroy BaseModel")
         output = out.getvalue().strip()
         self.assertEqual(output, "** instance id missing **")
 
