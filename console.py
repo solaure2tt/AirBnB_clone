@@ -235,9 +235,20 @@ by adding or updating attribute')
             if '(' not in arglist[1]:
                 arglist2 = [arglist[1], arglist[0]]
             else:
-                arglist[1] = arglist[1].replace(')', "")
-                arglist[1] = arglist[1].split('(')
-                arglist2 = list((arglist[1][0], arglist[0], arglist[1][1]))
+                if 'show' in arg:
+                    arglist[1] = arglist[1].replace(')', "")
+                    arglist[1] = arglist[1].split('(')
+                    arglist2 = list((arglist[1][0], arglist[0], arglist[1][1]))
+                elif 'update' in arg:
+                    arglist[1] = arglist[1].replace(')', "")
+                    arglist[1] = arglist[1].replace('(', ",")
+                    arglist[1] = arglist[1].split(",")
+                    command = arglist[1][0]
+                    clas = arglist[0]
+                    upd_id = arglist[1][1].rstrip().lstrip()
+                    upd_attr = arglist[1][2].rstrip().lstrip()
+                    upd_val = arglist[1][3].rstrip().lstrip()
+                    arglist2 = list((command, clas, upd_id, upd_attr, upd_val))
             arg = " ".join(arglist2)
         return cmd.Cmd.precmd(self, arg)
 
