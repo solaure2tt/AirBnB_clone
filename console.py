@@ -238,7 +238,7 @@ by adding or updating attribute')
                     arglist[1] = arglist[1].replace(')', "")
                     arglist[1] = arglist[1].replace('(', "")
                     arglist2 = [arglist[1], arglist[0]]
-                if 'show' in arg:
+                if 'show' in arg or 'destroy' in arg:
                     arglist[1] = arglist[1].replace(')', "")
                     arglist[1] = arglist[1].split('(')
                     arglist2 = list((arglist[1][0], arglist[0], arglist[1][1]))
