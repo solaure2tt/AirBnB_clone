@@ -228,11 +228,16 @@ by adding or updating attribute')
 
 
     def precmd(self, arg):
-        """ This method overwrites cmd baseclass method precmd """
+        """ This method overwrites the cmd base class method precmd """
 
         if '.' in arg:
             arglist = arg.split('.')
-            arglist2 = [arglist[1], arglist[0]]
+            if '(' not in arglist[1]:
+                arglist2 = [arglist[1], arglist[0]]
+            else:
+                arglist[1] = arglist[1].replace(')', "")
+                arglist[1] = arglist[1].split('(')
+                arglist2 = list((arglist[1][0], arglist[0], arglist[1][1]))
             arg = " ".join(arglist2)
         return cmd.Cmd.precmd(self, arg)
 
