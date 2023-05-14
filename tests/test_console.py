@@ -12,17 +12,6 @@ from console import HBNBCommand
 from models.base_model import BaseModel
 
 
-@contextmanager
-def captured_output():
-    new_out, new_err = io.StringIO(), io.StringIO()
-    old_out, old_err = sys.stdout, sys.stderr
-    try:
-        sys.stdout, sys.stderr = new_out, new_err
-        yield sys.stdout, sys.stderr
-    finally:
-        sys.stdout, sys.stderr = old_out, old_err
-
-
 class Test_Console(unittest.TestCase):
     """
     Test the console
@@ -39,7 +28,9 @@ class Test_Console(unittest.TestCase):
         self.model.save()
 
     def tearDown(self):
-        self.cli.do_destroy("BaseModel d3da85f2-499c-43cb-b33d-3d7935bc808c")
+        with patch('sys.stdout', new=StringIO()) as f:
+            com = "destroy BaseModel d3da85f2-499c-43cb-b33d-3d7935bc808c"
+            self.cli.onecmd(com)
 
     def test_show_error_no_args(self):
         with patch('sys.stdout', new=StringIO()) as f:
@@ -71,10 +62,12 @@ class Test_Console(unittest.TestCase):
         testmodel = BaseModel(test_args)
         testmodel.save()
         with patch('sys.stdout', new=StringIO()) as f:
-            self.cli.onecmd("destroy BaseModel f519fb40-1f5c-458b-945c-2ee8eaaf4900")
+            com = "destroy BaseModel f519fb40-1f5c-458b-945c-2ee8eaaf4900"
+            self.cli.onecmd(com)
 
         with patch('sys.stdout', new=StringIO()) as f:
-            self.cli.onecmd("show BaseModel f519fb40-1f5c-458b-945c-2ee8eaaf4900")
+            com = "show BaseModel f519fb40-1f5c-458b-945c-2ee8eaaf4900"
+            self.cli.onecmd(com)
             self.assertEqual(f.getvalue(), "** no instance found **\n")
 
     def test_destroy_error_missing_id(self):
@@ -84,13 +77,14 @@ class Test_Console(unittest.TestCase):
 
     def test_destroy_error_invalid_class(self):
         with patch('sys.stdout', new=StringIO()) as f:
-            self.cli.do_destroy("Human d3da85f2-499c-43cb-b33d-3d7935bc808c")
+            com = "destroy Human d3da85f2-499c-43cb-b33d-3d7935bc808c"
+            self.cli.onecmd(com)
             self.assertEqual(f.getvalue(), "** class doesn't exist **\n")
 
     def test_destroy_error_invalid_id(self):
         with patch('sys.stdout', new=StringIO()) as f:
-            self.cli.do_destroy("BaseModel " +
-                                "f519fb40-1f5c-458b-945c-2ee8eaaf4900")
+            com = "destroy BaseModel f519fb40-1f5c-458b-945c-2ee8eaaf4900"
+            self.cli.onecmd(com)
             self.assertEqual(f.getvalue(), "** no instance found **\n")
 
     def test_all_correct(self):
@@ -100,33 +94,34 @@ class Test_Console(unittest.TestCase):
         testmodel = BaseModel(test_args)
         testmodel.save()
         with patch('sys.stdout', new=StringIO()) as f:
-            self.cli.do_all("")
+            self.cli.onecmd("all")
             self.assertFalse("123-456-abc" in f.getvalue())
 
     def test_all_error_invalid_class(self):
         with patch('sys.stdout', new=StringIO()) as f:
-            self.cli.do_all("Human")
+            self.cli.onecmd("all Human")
             self.assertEqual(f.getvalue(), "** class doesn't exist **\n")
         with patch('sys.stdout', new=StringIO()) as f:
-            self.cli.do_show("BaseModel d3da85f2-499c-43cb-b33d-3d7935bc808c")
+            com = "show BaseModel d3da85f2-499c-43cb-b33d-3d7935bc808c"
+            self.cli.onecmd(com)
             self.assertFalse("Ace" in f.getvalue())
 
     def test_update_error_invalid_id(self):
         with patch('sys.stdout', new=StringIO()) as f:
-            self.cli.do_update("BaseModel 123-456-abcic name Cat")
+            self.cli.onecmd("update BaseModel 123-456-abcic name Cat")
             self.assertEqual(f.getvalue(), "** no instance found **\n")
 
     def test_update_error_invalid_class(self):
         with patch('sys.stdout', new=StringIO()) as f:
-            self.cli.do_update("Human " +
-                               "d3da85f2-499c-43cb-b33d-3d7935bc808c name Cat")
+            com = "update Human d3da85f2-499c-43cb-b33d-3d7935bc808c name Cat"
+            self.cli.onecmd(com)
             self.assertEqual(f.getvalue(), "** class doesn't exist **\n")
 
     def test_update_error_missing_value(self):
         with patch('sys.stdout', new=StringIO()) as f:
-            self.cli.do_update("BaseModel " +
-                               "d3da85f2-499c-43cb-b33d-3d7935bc808c name")
-        self.assertEqual(f.getvalue(), "** value missing **\n")
+            com = "update BaseModel d3da85f2-499c-43cb-b33d-3d7935bc808c name"
+            self.cli.onecmd(com)
+            self.assertEqual(f.getvalue(), "** value missing **\n")
 
 
 if __name__ == "__main__":
