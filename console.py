@@ -227,5 +227,40 @@ of all instances based or not on the class name')
 by adding or updating attribute')
 
 
+    def precmd(self, arg):
+        """ This method overwrites cmd baseclass method precmd """
+
+        if '.' in arg:
+            arglist = arg.split('.')
+            arglist2 = [arglist[1], arglist[0]]
+            arg = " ".join(arglist2)
+        return cmd.Cmd.precmd(self, arg)
+
+    def do_count(self, arg):
+        """ This method counts the nummber of occurrence
+        of a class instance """
+
+        obj_list = []
+
+        all_objs = storage.all()
+        if arg == "":
+            for obj_id in all_objs.keys():
+                obj_list.append(str(all_objs[obj_id]))
+            print(len(obj_list))
+        else:
+            listclass = ['BaseModel', 'User', 'City', 'State']
+            listclass.append('Amenity')
+            listclass.append('Place')
+            listclass.append('Review')
+            if arg in listclass:
+                for obj_id in all_objs.keys():
+                    obj_split = obj_id.split(".")
+                    if obj_split[0] == arg:
+                        obj_list.append(str(all_objs[obj_id]))
+                print(len(obj_list))
+            else:
+                print("** class doesn't exist **")
+
+
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
