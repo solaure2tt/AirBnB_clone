@@ -88,7 +88,7 @@ class FileStorage:
         """ This method deserializes a JSON obeject to class object """
 
         class_list = ["User", "State", "City", "Amenity", "Place",
-                "Review", "BaseModel"]
+                      "Review", "BaseModel"]
 
         if os.path.exists(FileStorage.__file_path):
             with open(FileStorage.__file_path, 'r') as file:
