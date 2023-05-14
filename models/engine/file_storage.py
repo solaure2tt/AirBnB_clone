@@ -87,10 +87,12 @@ class FileStorage:
     def reload(self):
         """ This method deserializes a JSON obeject to class object """
 
+        class_list = ["User", "State", "City", "Amenity", "Place",
+                "Review", "BaseModel"]
+
         if os.path.exists(FileStorage.__file_path):
             with open(FileStorage.__file_path, 'r') as file:
-                re = file.read()
-                listDict = json.loads(re)
+                listDict = json.load(file)
                 obj = {}
                 for di in listDict:
                     obj[di] = listDict[di]
@@ -99,17 +101,5 @@ class FileStorage:
                         ob = obj[k]
                         ob_class = ob['__class__']
                         key = ob['__class__'] + '.' + ob['id']
-                        if ob_class == "User":
-                            FileStorage.__objects[key] = User(**ob)
-                        if ob_class == "State":
-                            FileStorage.__objects[key] = State(**ob)
-                        if ob_class == "City":
-                            FileStorage.__objects[key] = City(**ob)
-                        if ob_class == "Amenity":
-                            FileStorage.__objects[key] = Amenity(**ob)
-                        if ob_class == "Place":
-                            FileStorage.__objects[key] = Place(**ob)
-                        if ob_class == "Review":
-                            FileStorage.__objects[key] = Review(**ob)
-                        if ob_class == "BaseModel":
-                            FileStorage.__objects[key] = BaseModel(**ob)
+                        if ob_class in class_list:
+                            FileStorage.__objects[key] = eval(ob_class)(**ob)
