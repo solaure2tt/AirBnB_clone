@@ -8,7 +8,7 @@ import cmd
 import sys
 import os
 import json
-from models import storage
+import models as m
 
 
 class BaseModel:
@@ -29,13 +29,13 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = dt.datetime.now()
             self.updated_at = dt.datetime.now()
-            storage.new(self)
+            m.storage.new(self)
 
     def save(self):
         """ This method updates the instance attribut updated_at """
 
         self.updated_at = dt.datetime.now()
-        storage.save()
+        m.storage.save()
 
     def to_dict(self):
         """ This method returns a dict of key-value pairs as per the

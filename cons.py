@@ -169,7 +169,7 @@ class HBNBCommand(cmd.Cmd):
                     obj_split = obj_id.split(".")
                     if obj_split[0] == arg:
                         obj_list.append(str(all_objs[obj_id]))
-                print(obj_list)
+                        print(obj_list)
             else:
                 print("** class doesn't exist **")
 
@@ -225,6 +225,24 @@ of all instances based or not on the class name')
         print('update class_name id_instance key value'), '\n'
         print('Updates an instance based on the class name and id \
 by adding or updating attribute')
+
+
+    def do_all2(self, arg):
+        """ This method serves as substitute for do_all """
+
+
+        line = arg.split(' ')
+
+        listclass = ['BaseModel', 'User', 'City', 'State']
+        listclass.extend(['Amenity', 'Place', 'Review'])
+
+        if line[0] in listclass:
+            do_all(line[0])
+        elif line[0] == "":
+            print("** class is missing **")
+        else:
+            print("** class doesn't exist **")
+
 
 
 if __name__ == '__main__':
