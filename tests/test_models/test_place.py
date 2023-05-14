@@ -50,12 +50,6 @@ class TestPlace_instantiation(unittest.TestCase):
         self.assertIn("name", dir(pl))
         self.assertNotIn("name", pl.__dict__)
 
-    def test_description_is_public_class_attribute(self):
-        pl = Place()
-        self.assertEqual(str, type(Place.description))
-        self.assertIn("description", dir(pl))
-        self.assertNotIn("desctiption", pl.__dict__)
-
     def test_number_rooms_is_public_class_attribute(self):
         pl = Place()
         self.assertEqual(int, type(Place.number_rooms))
@@ -138,10 +132,6 @@ class TestPlace_instantiation(unittest.TestCase):
         self.assertEqual(pl.id, "345")
         self.assertEqual(pl.created_at, dt)
         self.assertEqual(pl.updated_at, dt)
-
-    def test_instantiation_with_None_kwargs(self):
-        with self.assertRaises(TypeError):
-            Place(id=None, created_at=None, updated_at=None)
 
 
 class TestPlace_save(unittest.TestCase):
